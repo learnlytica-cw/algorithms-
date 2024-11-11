@@ -1,1 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Programming Logic and Techniques Training</title>
+    <style>
+        /* Previous CSS remains the same until accordion styles */
+        /* Modifying accordion styles for better interaction */
+        .accordion-header {
+            position: relative;
+            padding-right: 40px;
+        }
 
+        .accordion-header::after {
+            content: '+';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-header.active::after {
+            content: '−';
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .accordion-content.active {
+            max-height: 2000px; /* Adjusted for content */
+        }
+
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gray-light: #f3f4f6;
+            --gray-dark: #4b5563;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8fafc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .session-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px 8px 0 0;
+            margin-top: 2rem;
+        }
+
+        .accordion {
+            background: white;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .accordion-header {
+            padding: 1rem 1.5rem;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            border: none;
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--gray-dark);
+            transition: background-color 0.3s;
+        }
+
+        .accordion-header:hover {
+            background: var(--gray-light);
+        }
+
+        .accordion-content {
+            padding: 1.5rem;
+            background: var(--gray-light);
+            display: none;
+        }
+
+        .accordion-content.active {
+            display: block;
+        }
+
+        .duration {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            background: var(--secondary);
+            color: white;
+            border-radius: 999px;
+            font-size: 0.875rem;
+        }
+
+        .subsection {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .subsection-title {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .subsection-duration {
+            font-size: 0.875rem;
+            color: var(--gray-dark);
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            position: relative;
+            padding-left: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        li::before {
+            content: "•";
+            color: var(--primary);
+            position: absolute;
+            left: -0.5rem;
+        }
+
+        .nested-list {
+            margin-top: 0.5rem;
+            margin-left: 1rem;
+        }
+
+        .nested-list li::before {
+            content: "◦";
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .accordion-header {
+                padding: 0.75rem 1rem;
+            }
+            
+            .accordion-content {
+                padding: 1rem;
+            }
+        }
+
+        /* Rest of the CSS remains the same */
+    </style>
+</head>
+<body>
+    <!-- Previous HTML content remains the same -->
+    <div class="header">
+        <div class="header-content">
+            <h1>Programming Logic and Techniques Training</h1>
+            <p>A Comprehensive One-Day Module for Fresh Graduates</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Morning Session -->
+        <div class="session-header">
+            <h2>Morning Session (4 hours)</h2>
+        </div>
+        <div class="accordion">
+            <!-- Introduction Section -->
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    1. Introduction to Programming Logic
+                    <span class="duration">30 mins</span>
+                </button>
+                <div class="accordion-content">
+                    <ul>
+                        <li>Definition and importance</li>
+                        <li>Logic building fundamentals</li>
+                        <li>Relationship between flowcharts, algorithms, and pseudocode</li>
+                        <li>Systematic problem-solving approach</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Flowchart Section -->
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    2. Flowchart Deep Dive
+                    <span class="duration">1.5 hours</span>
+                </button>
+                <div class="accordion-content">
+                    <div class="subsection">
+                        <div class="subsection-title">
+                            Basic Symbols and Structure
+                            <span class="subsection-duration">30 mins</span>
+                        </div>
+                        <ul>
+                            <li>Start/End symbols</li>
+                            <li>Process/Action boxes</li>
+                            <li>Input/Output symbols</li>
+                            <li>Decision diamonds</li>
+                            <li>Connectors and flow lines</li>
+                            <li>Basic rules of flowcharting</li>
+                        </ul>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-title">
+                            Flowchart Patterns
+                            <span class="subsection-duration">30 mins</span>
+                        </div>
+                        <ul>
+                            <li>Sequential flow</li>
+                            <li>Conditional structures (If-Then-Else)</li>
+                            <li>Loop structures (For, While)</li>
+                            <li>Nested structures</li>
+                            <li>Case/Switch structures</li>
+                        </ul>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-title">
+                            Advanced Flowcharting
+                            <span class="subsection-duration">30 mins</span>
+                        </div>
+                        <ul>
+                            <li>Subroutines/Functions</li>
+                            <li>Array operations</li>
+                            <li>Error handling</li>
+                            <li>Multiple decision paths</li>
+                            <li>Complex business logic representation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Algorithm Development Section -->
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    3. Algorithm Development
+                    <span class="duration">2 hours</span>
+                </button>
+                <div class="accordion-content">
+                    <div class="subsection">
+                        <div class="subsection-title">
+                            Algorithm Basics
+                            <span class="subsection-duration">30 mins</span>
+                        </div>
+                        <ul>
+                            <li>Definition and characteristics</li>
+                            <li>Algorithm properties
+                                <ul class="nested-list">
+                                    <li>Finiteness</li>
+                                    <li>Definiteness</li>
+                                    <li>Effectiveness</li>
+                                    <li>Input/Output</li>
+                                </ul>
+                            </li>
+                            <li>Types of algorithms</li>
+                        </ul>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-title">
+                            Standard Algorithm Notations
+                            <span class="subsection-duration">30 mins</span>
+                        </div>
+                        <ul>
+                            <li>Sequence</li>
+                            <li>Selection</li>
+                            <li>Iteration</li>
+                            <li>Recursion</li>
+                            <li>Array notation</li>
+                            <li>Variable declaration</li>
+                            <li>Common mathematical notations</li>
+                        </ul>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-title">
+                            Algorithm Analysis
+                            <span class="subsection-duration">1 hour</span>
+                        </div>
+                        <ul>
+                            <li>Time complexity</li>
+                            <li>Space complexity</li>
+                            <li>Big O notation basics</li>
+                            <li>Best case, worst case, average case</li>
+                            <li>Common complexity classes:
+                                <ul class="nested-list">
+                                    <li>O(1)</li>
+                                    <li>O(log n)</li>
+                                    <li>O(n)</li>
+                                    <li>O(n log n)</li>
+                                    <li>O(n²)</li>
+                                </ul>
+                            </li>
+                            <li>Algorithm optimization techniques:
+                                <ul class="nested-list">
+                                    <li>Loop optimization</li>
+                                    <li>Space-time tradeoffs</li>
+                                    <li>Reducing unnecessary operations</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Afternoon Session -->
+        <div class="session-header">
+            <h2>Afternoon Session (4 hours)</h2>
+        </div>
+        <div class="accordion">
+            <!-- Pseudocode Development Section -->
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    4. Pseudocode Development
+                    <span class="duration">2 hours</span>
+                </button>
+                <div class="accordion-content">
+                    <div class="subsection">
+                        <div class="subsection-title">
+                            Pseudocode Fundamentals
+                            <span class="subsection-duration">45 mins</span>
+                        </div>
+                        <ul>
+                            <li>Standard keywords and conventions</li>
+                            <li>Basic structure</li>
+                            <li>Indentation rules</li>
+                            <li>Naming conventions</li>
+                        </ul>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-title">
+                            Pseudocode Keywords and Structures
+                            <span class="subsection-duration">45 mins</span>
+                        </div>
+                        <ul>
+                            <li>Input/Output:
+                                <ul class="nested-list">
+                                    <li>READ, WRITE, PRINT, DISPLAY</li>
+                                    <li>GET, PUT, INPUT, OUTPUT</li>
+                                </ul>
+                            </li>
+                            <li>Control Structures:
+                                <ul class="nested-list">
+                                    <li>IF-THEN-ELSE</li>
+                                    <li>CASE/SWITCH</li>
+                                    <li>FOR, WHILE, DO-WHILE</li>
+                                    <li>REPEAT-UNTIL</li>
+                                </ul>
+                            </li>
+                            <li>Operations:
+                                <ul class="nested-list">
+                                    <li>COMPUTE, CALCULATE, SET</li>
+                                    <li>INCREMENT, DECREMENT</li>
+                                    <li>ADD, SUBTRACT, MULTIPLY, DIVIDE</li>
+                                </ul>
+                            </li>
+                            <li>Array Operations:
+                                <ul class="nested-list">
+                                    <li>ARRAY, DIMENSION</li>
+                                    <li>INSERT, DELETE</li>
+                                    <li>SEARCH, SORT</li>
+                                </ul>
+                            </li>
+                            <li>Function Related:
+                                <ul class="nested-list">
+                                    <li>FUNCTION, PROCEDURE</li>
+                                    <li>RETURN, CALL</li>
+                                    <li>PARAMETERS</li>
+                                </ul>
+                            </li>
+                            <li>Other Keywords:
+                                <ul class="nested-list">
+                                    <li>BEGIN, END</li>
+                                    <li>DECLARE, INITIALIZE</li>
+                                    <li>TRUE, FALSE</li>
+                                    <li>AND, OR, NOT</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-title">
+                            Advanced Pseudocode Concepts
+                            <span class="subsection-duration">30 mins</span>
+                        </div>
+                        <ul>
+                            <li>Exception handling</li>
+                            <li>File operations</li>
+                            <li>Complex data structures</li>
+                            <li>Module integration</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logic Pattern Recognition Section -->
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    5. Logic Pattern Recognition
+                    <span class="duration">2 hours</span>
+                </button>
+                <div class="accordion-content">
+                    <div class="subsection">
+                        <div class="subsection-title">
+                            Common Programming Patterns
+                        </div>
+                        <ul>
+                            <li>Counter patterns</li>
+                            <li>Accumulator patterns</li>
+                            <li>Search patterns</li>
+                            <li>Sort patterns</li>
+                            <li>Validation patterns</li>
+                            <li>Data transformation patterns</li>
+                        </ul>
+                    </div>
+    <script>
+        // Add this script at the end of the body
+        document.addEventListener('DOMContentLoaded', function() {
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    // Toggle active class on header
+                    this.classList.toggle('active');
+                    
+                    // Get the content panel
+                    const content = this.nextElementSibling;
+                    
+                    // Toggle active class on content
+                    content.classList.toggle('active');
+                    
+                    // Set appropriate max-height
+                    if (content.classList.contains('active')) {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    } else {
+                        content.style.maxHeight = "0";
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
